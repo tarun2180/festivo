@@ -1,0 +1,2465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Festivo</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Color System - Base Light Mode Defaults */
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-200: #bfdbfe;
+            --primary-300: #93c5fd;
+            --primary-400: #60a5fa;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --primary-800: #1e40af;
+            --primary-900: #1e3a8a;
+            
+            --secondary-50: #faf5ff;
+            --secondary-100: #f3e8ff;
+            --secondary-200: #e9d5ff;
+            --secondary-300: #d8b4fe;
+            --secondary-400: #c084fc;
+            --secondary-500: #a855f7;
+            --secondary-600: #9333ea;
+            --secondary-700: #7c3aed;
+            --secondary-800: #6b21a8;
+            --secondary-900: #581c87;
+            
+            --accent-50: #fffbeb;
+            --accent-100: #fef3c7;
+            --accent-200: #fde68a;
+            --accent-300: #fcd34d;
+            --accent-400: #fbbf24;
+            --accent-500: #f59e0b;
+            --accent-600: #d97706;
+            --accent-700: #b45309;
+            --accent-800: #92400e;
+            --accent-900: #78350f;
+            
+            --success-100: #dcfce7;
+            --success-500: #10b981;
+            --success-600: #059669;
+            --success-700: #047857;
+            
+            --error-100: #fee2e2;
+            --error-500: #ef4444;
+            --error-700: #b91c1c;
+            
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Theming Variables */
+            --bg-main: white;
+            --text-main: var(--gray-900);
+            --card-bg: white;
+            --card-border: var(--gray-100);
+            --card-shadow: var(--shadow-md);
+            --header-bg-start: rgba(255,255,255,0.95);
+            --header-bg-end: rgba(249,250,251,0.95);
+            --header-border-color: var(--gray-200);
+            --link-color: var(--gray-600);
+            --link-hover-color: var(--primary-600);
+            --input-bg: white;
+            --input-border: var(--gray-300);
+            --button-primary-bg: var(--primary-500);
+            --button-primary-text: white;
+            --button-primary-border: var(--primary-500);
+            --button-secondary-bg: var(--secondary-500);
+            --button-secondary-text: white;
+            --button-disabled-bg: var(--gray-400);
+        }
+
+        /* Dark Mode Overrides */
+        html[data-theme="dark"] {
+            --bg-main: var(--gray-900);
+            --text-main: var(--gray-100);
+            --card-bg: var(--gray-800);
+            --card-border: var(--gray-700);
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+            --header-bg-start: rgba(17,24,39,0.95);
+            --header-bg-end: rgba(30,41,59,0.95);
+            --header-border-color: var(--gray-700);
+            --link-color: var(--gray-300);
+            --link-hover-color: var(--primary-400);
+            --input-bg: var(--gray-700);
+            --input-border: var(--gray-600);
+            --button-primary-bg: var(--primary-600);
+            --button-primary-text: white;
+            --button-primary-border: var(--primary-600);
+            --button-secondary-bg: var(--secondary-600);
+            --button-secondary-text: white;
+            --button-disabled-bg: var(--gray-600);
+
+            /* Adjust specific elements using base colors to look good in dark mode */
+            --welcome-gradient-start: var(--gray-100); /* Lighter gray for dark mode gradient */
+            --welcome-gradient-end: var(--primary-400); /* Slightly lighter primary for dark mode gradient */
+        }
+        
+        /* Spacing System */
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-5: 1.25rem;
+        --space-6: 1.5rem;
+        --space-8: 2rem;
+        --space-10: 2.5rem;
+        --space-12: 3rem;
+        --space-16: 4rem;
+        
+        /* Typography */
+        --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --line-height-base: 1.5;
+        --line-height-relaxed: 1.7;
+        
+        /* Shadows */
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        
+        /* Border Radius */
+        --radius-sm: 0.25rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+        --radius-2xl: 1.5rem;
+        --radius-full: 9999px;
+        
+        /* Transitions */
+        --transition-fast: 150ms ease;
+        --transition-base: 250ms ease;
+
+        body {
+            font-family: var(--font-family);
+            font-size: 16px;
+            line-height: var(--line-height-base);
+            color: var(--text-main); /* Use theme variable */
+            background-color: var(--bg-main); /* Use theme variable */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: linear-gradient(90deg, var(--header-bg-start) 0%, var(--header-bg-end) 100%); /* Use theme variables */
+            border-bottom: 1px solid var(--header-border-color); /* Use theme variable */
+            backdrop-filter: blur(8px);
+            /* Animation for header */
+            animation: fadeInDown 1s ease-out forwards;
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(-20px); /* Start slightly above for animation */
+        }
+
+        /* Keyframes for header animation */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            color: var(--primary-600);
+            text-decoration: none;
+            transition: all var(--transition-base);
+        }
+
+        .logo.small {
+            font-size: 1.25rem;
+        }
+
+        .logo.small .logo-icon {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .logo-icon {
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform var(--transition-base);
+        }
+
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+            color: inherit;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5em;
+            letter-spacing: -0.025em;
+        }
+
+        .logo:hover .logo-icon {
+            transform: scale(1.05);
+        }
+
+        .main-nav {
+            display: flex;
+            gap: var(--space-8);
+        }
+
+        .nav-link {
+            color: var(--link-color); /* Use theme variable */
+            text-decoration: none;
+            font-weight: 500;
+            padding: var(--space-2) 0;
+            position: relative;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-600), var(--secondary-600));
+            transition: width var(--transition-base);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--link-hover-color); /* Use theme variable */
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .notification-btn {
+            position: relative;
+            padding: var(--space-3);
+            background: none;
+            border: none;
+            color: var(--link-color); /* Use theme variable */
+            cursor: pointer;
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+        }
+
+        .notification-btn:hover {
+            background-color: var(--gray-100);
+            color: var(--link-hover-color); /* Use theme variable */
+        }
+        html[data-theme="dark"] .notification-btn:hover {
+            background-color: var(--gray-700);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--error-500);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: var(--radius-full);
+            min-width: 1.25rem;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--radius-full);
+            border: 2px solid var(--gray-200);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background: none;
+            padding: 0;
+        }
+        html[data-theme="dark"] .user-avatar {
+            border-color: var(--gray-700);
+        }
+
+        .user-avatar:hover {
+            border-color: var(--primary-300);
+            transform: scale(1.05);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Login/Logout Button Styling */
+        .auth-button {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none; /* In case it's an anchor tag */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-button.login {
+            background-color: var(--button-primary-bg); /* Use theme variable */
+            color: var(--button-primary-text); /* Use theme variable */
+            border: 1px solid var(--button-primary-border); /* Use theme variable */
+        }
+
+        .auth-button.login:hover {
+            background-color: var(--primary-600);
+            border-color: var(--primary-600);
+        }
+
+        .auth-button.logout {
+            background-color: transparent;
+            color: var(--link-color); /* Use theme variable */
+            border: 1px solid var(--gray-300);
+        }
+        html[data-theme="dark"] .auth-button.logout {
+            border-color: var(--gray-600);
+        }
+
+
+        .auth-button.logout:hover {
+            background-color: var(--gray-100);
+            border-color: var(--gray-400);
+            color: var(--text-main); /* Use theme variable */
+        }
+        html[data-theme="dark"] .auth-button.logout:hover {
+            background-color: var(--gray-700);
+            border-color: var(--gray-600);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            padding: var(--space-3);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem; /* Make it circular */
+            height: 2.5rem; /* Make it circular */
+            color: var(--link-color); /* Use theme variable */
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: var(--gray-100);
+            color: var(--link-hover-color); /* Use theme variable */
+        }
+
+        html[data-theme="dark"] .theme-toggle-btn {
+            color: var(--gray-300); /* Adjust color for dark mode */
+        }
+        html[data-theme="dark"] .theme-toggle-btn:hover {
+            background-color: var(--gray-700);
+            color: var(--gray-100);
+        }
+
+        /* Dashboard */
+        .dashboard-main {
+            min-height: calc(100vh - 4rem);
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--primary-50) 100%);
+        }
+        html[data-theme="dark"] .dashboard-main {
+            background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-8);
+        }
+
+        .welcome-section {
+            margin-bottom: var(--space-12);
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-main); /* Use theme variable */
+            margin-bottom: var(--space-2);
+            background: linear-gradient(135deg, var(--gray-900) 0%, var(--primary-600) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        html[data-theme="dark"] .welcome-section h1 {
+            background: linear-gradient(135deg, var(--welcome-gradient-start) 0%, var(--welcome-gradient-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-section p {
+            font-size: 1.125rem;
+            color: var(--gray-600); /* Keep as is or adjust slightly for dark mode contrast */
+        }
+        html[data-theme="dark"] .welcome-section p {
+            color: var(--gray-300);
+        }
+
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-12);
+        }
+
+        .stat-card {
+            background: var(--card-bg); /* Use theme variable */
+            padding: var(--space-6);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--card-shadow); /* Use theme variable */
+            border: 1px solid var(--card-border); /* Use theme variable */
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-500), var(--secondary-500));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl); /* Always use light shadow on hover, or define dark version */
+        }
+
+        .stat-card:nth-child(2)::before {
+            background: linear-gradient(90deg, var(--secondary-500), var(--accent-500));
+        }
+
+        .stat-card:nth-child(3)::before {
+            background: linear-gradient(90deg, var(--accent-500), var(--success-500));
+        }
+
+        .stat-card:nth-child(4)::before {
+            background: linear-gradient(90deg, var(--success-500), var(--primary-500));
+        }
+
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-600);
+            margin-bottom: var(--space-4);
+        }
+        html[data-theme="dark"] .stat-icon {
+            background: linear-gradient(135deg, var(--primary-800), var(--primary-700));
+            color: var(--primary-300);
+        }
+
+        .stat-content h3 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-600); /* Keep as is or adjust for dark mode contrast */
+            margin-bottom: var(--space-1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        html[data-theme="dark"] .stat-content h3 {
+            color: var(--gray-400);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main); /* Use theme variable */
+            margin-bottom: var(--space-2);
+            line-height: 1;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            color: var(--success-500);
+        }
+
+        .stat-change.negative {
+            color: var(--error-500);
+        }
+
+        .stat-change.neutral {
+            color: var(--gray-500);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-8);
+        }
+
+        .section-header h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-main); /* Use theme variable */
+        }
+
+        .create-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-md);
+        }
+        /* Style for disabled create event button */
+        .create-btn:disabled {
+            background: var(--button-disabled-bg); /* Use theme variable */
+            cursor: not-allowed;
+            opacity: 0.7;
+            box-shadow: none;
+        }
+
+
+        .create-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--primary-700), var(--primary-800));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .event-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-12);
+        }
+
+        /* Event type card as a button */
+        .event-type-card-button {
+            background: var(--card-bg); /* Use theme variable */
+            padding: var(--space-8);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--card-shadow); /* Use theme variable */
+            border: 1px solid var(--card-border); /* Use theme variable */
+            transition: all var(--transition-base);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer; /* Indicate it's clickable */
+            font-family: var(--font-family); /* Inherit font from body */
+            color: inherit; /* Inherit color from body */
+        }
+        /* Remove default button styles */
+        .event-type-card-button {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: var(--card-bg); /* Explicitly set background */
+            border: 1px solid var(--card-border); /* Explicitly set border */
+            padding: var(--space-8); /* Explicitly set padding */
+            text-align: center; /* Explicitly set text alignment */
+        }
+
+
+        .event-type-card-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+            z-index: 1;
+        }
+
+        .event-type-card-button:hover::before {
+            opacity: 1;
+        }
+
+        .event-type-card-button:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-200);
+        }
+        html[data-theme="dark"] .event-type-card-button:hover {
+            border-color: var(--primary-800);
+        }
+
+        .event-type-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: var(--radius-2xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-6);
+            transition: all var(--transition-base);
+            position: relative;
+            z-index: 2;
+        }
+
+        .event-type-icon.conference {
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+            color: var(--primary-600);
+        }
+        html[data-theme="dark"] .event-type-icon.conference {
+            background: linear-gradient(135deg, var(--primary-800), var(--primary-700));
+            color: var(--primary-300);
+        }
+
+        .event-type-icon.workshop {
+            background: linear-gradient(135deg, var(--secondary-100), var(--secondary-200));
+            color: var(--secondary-600);
+        }
+        html[data-theme="dark"] .event-type-icon.workshop {
+            background: linear-gradient(135deg, var(--secondary-800), var(--secondary-700));
+            color: var(--secondary-300);
+        }
+        
+        .event-type-icon.webinar {
+            background: linear-gradient(135deg, var(--accent-100), var(--accent-200));
+            color: var(--accent-600);
+        }
+        html[data-theme="dark"] .event-type-icon.webinar {
+            background: linear-gradient(135deg, var(--accent-800), var(--accent-700));
+            color: var(--accent-300);
+        }
+
+        .event-type-icon.social {
+            background: linear-gradient(135deg, var(--success-100), #86efac);
+            color: var(--success-600);
+        }
+        html[data-theme="dark"] .event-type-icon.social {
+            background: linear-gradient(135deg, var(--success-800), var(--success-700));
+            color: var(--success-300);
+        }
+
+        .event-type-icon.exhibition {
+            background: linear-gradient(135deg, #fecaca, #fca5a5);
+            color: #dc2626;
+        }
+        html[data-theme="dark"] .event-type-icon.exhibition {
+            background: linear-gradient(135deg, var(--error-800), var(--error-700));
+            color: var(--error-300);
+        }
+
+
+        .event-type-icon.sports {
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            color: #4f46e5;
+        }
+        html[data-theme="dark"] .event-type-icon.sports {
+            background: linear-gradient(135deg, var(--primary-800), var(--primary-700)); /* Reusing primary for sports in dark mode */
+            color: var(--primary-300);
+        }
+
+        /* New Marriage Event Type Icon Style */
+        .event-type-icon.marriage {
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+            color: #db2777;
+        }
+        html[data-theme="dark"] .event-type-icon.marriage {
+            background: linear-gradient(135deg, #a81a5c, #85154a); /* Darker pink for dark mode */
+            color: #fbcfe8; /* Lighter pink for dark mode */
+        }
+
+
+        .event-type-card-button:hover .event-type-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .event-type-card-button h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main); /* Use theme variable */
+            margin-bottom: var(--space-3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .event-type-card-button p {
+            color: var(--gray-600); /* Keep as is or adjust for dark mode contrast */
+            margin-bottom: var(--space-6);
+            line-height: var(--line-height-relaxed);
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+        }
+        html[data-theme="dark"] .event-type-card-button p {
+            color: var(--gray-300);
+        }
+
+
+        .event-type-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--gray-100); /* Keep as is or adjust for dark mode contrast */
+            margin-top: auto;
+            position: relative;
+            z-index: 2;
+        }
+        html[data-theme="dark"] .event-type-stats {
+            border-top-color: var(--gray-700);
+        }
+
+        .event-type-stats span {
+            font-size: 0.875rem;
+            color: var(--gray-500); /* Keep as is or adjust for dark mode contrast */
+            font-weight: 500;
+        }
+        html[data-theme="dark"] .event-type-stats span {
+            color: var(--gray-400);
+        }
+
+        /* Decorative Badge (Dummy Image) */
+        .decoration-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: transparent; /* Changed to transparent as SVG has its own color */
+            border-radius: var(--radius-full);
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none; /* No shadow needed for SVG */
+            z-index: 3;
+            transition: transform var(--transition-fast);
+            pointer-events: none; /* Ensure clicks pass through to the button */
+        }
+        .event-type-card-button:hover .decoration-badge {
+            transform: scale(1.1) rotate(10deg);
+        }
+        .decoration-badge svg {
+            width: 100%;
+            height: 100%;
+            color: currentColor; /* SVG inherits color from parent if needed */
+        }
+
+        /* Action Button for cards (removed, as the card itself is the button) */
+        /* Re-added this section for the case if the user wants separate button */
+        .card-action-btn {
+            display: none; /* Hidden as the card itself is the button */
+        }
+
+
+        /* Removed recent-events-section styles as the section is removed */
+
+        .view-all-link {
+            color: var(--primary-600);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition-fast);
+        }
+        html[data-theme="dark"] .view-all-link {
+            color: var(--primary-400);
+        }
+
+        .view-all-link:hover {
+            color: var(--primary-700);
+        }
+
+        /* Removed .events-list and .event-item related styles */
+
+        .event-date {
+            text-align: center;
+            padding: var(--space-4);
+            background: linear-gradient(135deg, var(--primary-50), var(--primary-100));
+            border-radius: var(--radius-xl);
+            min-width: 4rem;
+            border: 1px solid var(--primary-200);
+        }
+        html[data-theme="dark"] .event-date {
+            background: linear-gradient(135deg, var(--primary-800), var(--primary-700));
+            border-color: var(--primary-600);
+        }
+
+        .date-day {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-600);
+            line-height: 1;
+        }
+        html[data-theme="dark"] .date-day {
+            color: var(--primary-200);
+        }
+
+
+        .date-month {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        html[data-theme="dark"] .date-month {
+            color: var(--primary-300);
+        }
+
+        .event-content {
+            flex: 1;
+        }
+
+        .event-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-main); /* Use theme variable */
+            margin-bottom: var(--space-2);
+        }
+
+        .event-content p {
+            color: var(--gray-600); /* Keep as is or adjust for dark mode contrast */
+            margin-bottom: var(--space-3);
+        }
+        html[data-theme="dark"] .event-content p {
+            color: var(--gray-300);
+        }
+
+
+        .event-meta {
+            display: flex;
+            gap: var(--space-6);
+        }
+
+        .event-meta span {
+            font-size: 0.875rem;
+            color: var(--gray-500); /* Keep as is or adjust for dark mode contrast */
+        }
+        html[data-theme="dark"] .event-meta span {
+            color: var(--gray-400);
+        }
+
+        .event-type {
+            font-weight: 500;
+            color: var(--primary-600) !important;
+        }
+        html[data-theme="dark"] .event-type {
+            color: var(--primary-400) !important;
+        }
+
+        .status-badge {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-badge.upcoming {
+            background-color: var(--accent-100);
+            color: var(--accent-700);
+        }
+        html[data-theme="dark"] .status-badge.upcoming {
+            background-color: var(--accent-800);
+            color: var(--accent-200);
+        }
+
+        .status-badge.completed {
+            background-color: var(--success-100);
+            color: var(--success-700);
+        }
+        html[data-theme="dark"] .status-badge.completed {
+            background-color: var(--success-800);
+            color: var(--success-200);
+        }
+
+        .status-badge.cancelled {
+            background-color: var(--error-100);
+            color: var(--error-700);
+        }
+        html[data-theme="dark"] .status-badge.cancelled {
+            background-color: var(--error-800);
+            color: var(--error-200);
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--error-500);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: var(--radius-sm);
+            transition: background-color var(--transition-fast);
+            margin-left: auto; /* Push to the right */
+        }
+        .delete-btn:hover {
+            background-color: var(--error-100);
+        }
+        html[data-theme="dark"] .delete-btn:hover {
+            background-color: var(--error-800);
+        }
+
+        /* Styles for the new features */
+        .location-input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .get-location-btn {
+            padding: 0.5rem 0.75rem;
+            background-color: var(--button-primary-bg); /* Use theme variable */
+            color: var(--button-primary-text); /* Use theme variable */
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        .get-location-btn:hover {
+            background-color: var(--primary-600);
+        }
+
+        /* Create Event Modal styles */
+        #createEventModal > div { /* Target the inner modal content div */
+            background: var(--card-bg) !important; /* Use theme variable */
+            box-shadow: var(--card-shadow) !important; /* Use theme variable */
+        }
+        #createEventModal h2 {
+            color: var(--text-main) !important; /* Use theme variable */
+        }
+        #createEventModal label {
+            color: var(--text-main) !important; /* Use theme variable */
+        }
+        #createEventModal input[type="text"],
+        #createEventModal input[type="date"],
+        #createEventModal input[type="time"],
+        #createEventModal input[type="tel"],
+        #createEventModal input[type="number"],
+        #createEventModal select,
+        #createEventModal textarea {
+            background-color: var(--input-bg) !important; /* Use theme variable */
+            color: var(--text-main) !important; /* Use theme variable */
+            border: 1px solid var(--input-border) !important; /* Use theme variable */
+        }
+        #createEventModal input::placeholder,
+        #createEventModal textarea::placeholder {
+            color: var(--gray-400) !important; /* Adjust placeholder for theme */
+        }
+        html[data-theme="dark"] #createEventModal input::placeholder,
+        html[data-theme="dark"] #createEventModal textarea::placeholder {
+            color: var(--gray-500) !important;
+        }
+
+
+        /* Notification and Animation Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .notification-box {
+            background-color: var(--card-bg); /* Use theme variable */
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow); /* Use theme variable */
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        .overlay.active .notification-box {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .notification-box h2 {
+            color: var(--primary-600); /* Primary remains same */
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        .notification-box p {
+            color: var(--gray-700); /* Adjust for theme */
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        html[data-theme="dark"] .notification-box h2 {
+            color: var(--primary-400);
+        }
+        html[data-theme="dark"] .notification-box p {
+            color: var(--gray-200);
+        }
+
+
+        /* Confetti Animation (simple dots for demonstration) */
+        .confetti-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: currentColor;
+            border-radius: 50%;
+            opacity: 0;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0.5;
+            }
+        }
+        .llm-button {
+            background-color: var(--button-secondary-bg); /* Use theme variable */
+            color: var(--button-secondary-text); /* Use theme variable */
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            justify-content: center;
+            width: 100%; /* Make buttons full width */
+        }
+
+        .llm-button:hover {
+            background-color: var(--secondary-600);
+        }
+        /* Style for loading state */
+        .llm-button:disabled {
+            background-color: var(--button-disabled-bg); /* Use theme variable */
+            cursor: not-allowed;
+        }
+
+        /* Calendar Section */
+        #calendar-container {
+            background: var(--card-bg) !important;
+            box-shadow: var(--card-shadow) !important;
+        }
+        /* Analytics Section */
+        .analytics-section > div {
+            background: var(--card-bg) !important;
+            box-shadow: var(--card-shadow) !important;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-nav {
+                display: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .event-types-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: var(--space-4);
+            }
+            
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+            
+            /* Removed event-item responsive styles */
+            
+            .event-date {
+                align-self: flex-start;
+            }
+            
+            .event-meta {
+                flex-direction: column;
+                gap: var(--space-2);
+            }
+            
+            .header-content {
+                padding: 0 var(--space-4);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .event-types-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section h1 {
+                font-size: 1.75rem;
+            }
+            
+            .stat-card {
+                padding: var(--space-4);
+            }
+            
+            .event-type-card-button {
+                padding: var(--space-6);
+            }
+            
+            .user-avatar {
+                width: 2rem;
+                height: 2rem;
+            }
+            
+            .logo.small .logo-text {
+                display: none;
+            }
+        }
+        
+        #galleryModal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    z-index: 9999;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+
+  .gallery-image {
+    max-width: 30%;
+    margin: 1rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+
+  .gallery-image:hover {
+    transform: scale(1.05);
+  }
+
+  #galleryModalClose {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: white;
+    color: black;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-image {
+      max-width: 90%;
+    }
+  }
+    </style>
+    <!-- Include Chart.js for analytics charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include Google Maps Platform JS API with Places library -->
+    <!-- REPLACE "YOUR_API_KEY" WITH YOUR ACTUAL GOOGLE CLOUD API KEY -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+</head>
+<body>
+    <header class="header dashboard-header">
+        <div class="header-content">
+            <div class="logo small">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="30" r="8" fill="currentColor"/>
+                        <path d="M25 45 L50 35 L75 45 L75 75 L25 75 Z" fill="currentColor" opacity="0.8"/>
+                        <rect x="40" y="50" width="20" height="15" fill="white" rx="2"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Festivo</span>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#event-types-section" class="nav-link">Events</a>
+                <a href="#calendar" class="nav-link" target="_blank">Calendar</a>
+                <a href="#analytics" class="nav-link">Analytics</a>
+            </nav>
+            
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
+                    <!-- Icon will be added by JavaScript -->
+                </button>
+                <button class="notification-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <div class="auth-button">
+                    <button id="login-logout-button" onclick="handleLoginLogout()"></button>
+                </div>
+                <div id="userAvatar" class="avatar" style="width: 40px;height: 40px;border-radius: 50%;background-color: #0d6efd; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold;"></div>
+
+
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <div class="welcome-section">
+                <h1 id="welcome-message">Welcome back!</h1>
+                <p>Manage your events and stay organized with Festivo</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Events</h3>
+                        <p class="stat-number">24</p>
+                        <span class="stat-change positive">+12% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 =0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Attendees</h3>
+                        <p class="stat-number">1,847</p>
+                        <span class="stat-change positive">+8% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Upcoming Events</h3>
+                        <p class="stat-number">8</p>
+                        <span class="stat-change neutral">Next in 3 days</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"/>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Revenue</h3>
+                        <p class="stat-number">$42,750</p>
+                        <span class="stat-change positive">+15% from last month</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="event-types-section" class="event-types-section">
+                <div class="section-header">
+                    <h2>Event Types</h2>
+                    <button id="mainCreateEventButton" class="create-btn" onclick="openCreateEventForm()" disabled title="Please log in to create an event.">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="16"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                        Create Event
+                    </button>
+                    <!-- Create Event Modal -->
+                    <div id="createEventModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
+                        <div style="background:white; padding:2rem; border-radius:1rem; width:90%; max-width:500px; max-height: 80vh; overflow-y: auto;">
+                            <h2 style="margin-bottom:1rem;">Create New Event</h2>
+                            <form id="createEventForm">
+                                <div style="margin-bottom:1rem;">
+                                    <label for="eventTitle">Title:</label><br>
+                                    <input type="text" id="eventTitle" name="eventTitle" required style="width:100%; padding:0.5rem;">
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="eventType">Type:</label><br>
+                                    <select id="eventType" name="eventType" required style="width:100%; padding:0.5rem;">
+                                        <option value="">Select Type</option>
+                                        <option value="Conference">Conference</option>
+                                        <option value="Workshop">Workshop</option>
+                                        <option value="Webinar">Webinar</option>
+                                        <option value="Social Event">Social Event</option>
+                                        <option value="Exhibition">Exhibition</option>
+                                        <option value="Sports">Sports</option>
+                                        <option value="Marriage">Marriage</option>                                
+                                    </select>
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="eventDate">Date:</label><br>
+                                    <input type="date" id="eventDate" name="eventDate" required style="width:100%; padding:0.5rem;">
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="eventTime">Time:</label><br>
+                                    <input type="time" id="eventTime" name="eventTime" required style="width:100%; padding:0.5rem;">
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="eventLocation">Location:</label><br>
+                                    <div class="location-input-group">
+                                        <input type="text" id="eventLocation" name="eventLocation" required style="flex-grow:1; padding:0.5rem;" placeholder="Use GPS or type location">
+                                        <button type="button" class="get-location-btn" onclick="getCurrentLocation()">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                                <circle cx="12" cy="10" r="3"></circle>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="eventManagementOrg">Event Management Organization:</label><br>
+                                    <select id="eventManagementOrg" name="eventManagementOrg" style="width:100%; padding:0.5rem;">
+                                        <option value="">Loading organizations...</option>
+                                    </select>
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="mobileNumber">Mobile Number:</label><br>
+                                    <input type="tel" id="mobileNumber" name="mobileNumber" pattern="[0-9]{10}" placeholder="e.g., 1234567890" required style="width:100%; padding:0.5rem;">
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="eventSlogan">Event Slogan:</label><br>
+                                    <input type="text" id="eventSlogan" name="eventSlogan" style="width:100%; padding:0.5rem;">
+                                    <button type="button" id="generateSloganBtn" class="llm-button">✨ Generate Slogan</button>
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="eventDescription">Description:</label><br>
+                                    <textarea id="eventDescription" name="eventDescription" rows="3" required style="width:100%; padding:0.5rem;"></textarea>
+                                    <button type="button" id="generateDescriptionBtn" class="llm-button">✨ Generate Description</button>
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label for="attendees">Attendees:</label><br>
+                                    <input type="number" id="attendees" name="attendees" min="1" required style="width:100%; padding:0.5rem;">
+                                </div>
+                                <div style="text-align:right;">
+                                    <button type="button" onclick="closeCreateEventForm()" style="margin-right:1rem; padding:0.5rem 1rem;">Cancel</button>
+                                    <button type="submit" style="padding:0.5rem 1rem; background:#3b82f6; color:white; border:none; border-radius:0.25rem;">Create</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="event-types-grid">
+                    <button class="event-type-card-button" data-event-type="Conference">
+                        <div class="decoration-badge" style="background-color: var(--primary-500);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 11a9 9 0 0 1 18 0v2a9 9 0 0 1-18 0V11z"></path>
+                                <path d="M8 14l2 2 4-4"></path>
+                            </svg>
+                        </div>
+                        <div class="event-type-icon conference">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3>Conference</h3>
+                        <p>Professional business conferences and seminars.</p>
+                        <div class="event-type-stats">
+                            <span>12 Active Events</span>
+                            <span>847 Attendees</span>
+                        </div>
+                    </button>
+                    
+                    <button class="event-type-card-button" data-event-type="Workshop">
+                        <div class="decoration-badge" style="background-color: var(--secondary-500);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20z"></path>
+                                <path d="M2 12h20"></path>
+                            </svg>
+                        </div>
+                        <div class="event-type-icon workshop">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                        </div>
+                        <h3>Workshop</h3>
+                        <p>Interactive learning sessions and skill development.</p>
+                        <div class="event-type-stats">
+                            <span>8 Active Events</span>
+                            <span>234 Attendees</span>
+                        </div>
+                    </button>
+                    
+                    <button class="event-type-card-button" data-event-type="Webinar">
+                        <div class="decoration-badge" style="background-color: var(--accent-500);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+                        <div class="event-type-icon webinar">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
+                        <h3>Webinar</h3>
+                        <p>Online presentations and virtual meetings.</p>
+                        <div class="event-type-stats">
+                            <span>15 Active Events</span>
+                            <span>1,102 Attendees</span>
+                        </div>
+                    </button>
+                    
+                    <button class="event-type-card-button" data-event-type="Social Event">
+                        <div class="decoration-badge" style="background-color: var(--success-500);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="event-type-icon social">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h3>Social Event</h3>
+                        <p>Networking events and social gatherings.</p>
+                        <div class="event-type-stats">
+                            <span>6 Active Events</span>
+                            <span>425 Attendees</span>
+                        </div>
+                    </button>
+                    
+                    <button class="event-type-card-button" data-event-type="Exhibition">
+                        <div class="decoration-badge" style="background-color: var(--error-500);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z"></path>
+                                <path d="M12 18V6"></path>
+                                <path d="M15 9l-3-3-3 3"></path>
+                            </svg>
+                        </div>
+                        <div class="event-type-icon exhibition">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9,22 9,12 15,12 15,22"/>
+                            </svg>
+                        </div>
+                        <h3>Exhibition</h3>
+                        <p>Trade shows and product exhibitions.</p>
+                        <div class="event-type-stats">
+                            <span>4 Active Events</span>
+                            <span>312 Attendees</span>
+                        </div>
+                    </button>
+                    
+                    <button class="event-type-card-button" data-event-type="Sports Event">
+                        <div class="decoration-badge" style="background-color: #4f46e5;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20z"></path>
+                                <path d="M2 12h20"></path>
+                            </svg>
+                        </div>
+                        <div class="event-type-icon sports">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                                <path d="M2 12h20"/>
+                            </svg>
+                        </div>
+                        <h3>Sports Event</h3>
+                        <p>Athletic competitions and sports tournaments.</p>
+                        <div class="event-type-stats">
+                            <span>3 Active Events</span>
+                            <span>1,247 Attendees</span>
+                        </div>
+                    </button>
+                    <!-- New Marriage Event Type Card -->
+                    <button class="event-type-card-button" data-event-type="Marriage">
+                        <div class="decoration-badge" style="background-color: #db2777;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </div>
+                        <div class="event-type-icon marriage">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l-5 5L7 17zM17 7l5-5L17 7zM15 15l-3 3-3-3 3-3 3 3zM9 9L3 3M21 21L15 15"/>
+                            </svg>
+                        </div>
+                        <h3>Marriage</h3>
+                        <p>Wedding ceremonies and related celebrations.</p>
+                        <div class="event-type-stats">
+                            <span>0 Active Events</span>
+                            <span>0 Attendees</span>
+                        </div>
+                    </button>
+                    <div id="galleryModal">
+  <button id="galleryModalClose">Close</button>
+</div>
+                </div>
+            </div>
+            
+            <!-- The "Recent Events" section has been removed as requested -->
+            
+            <!-- Calendar Section -->
+            <div id="calendar" class="calendar-section">
+                <div class="section-header">
+                    <h2>Calendar</h2>
+                </div>
+                <div id="calendar-container" style="background:white; border-radius:1rem; padding:2rem; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=en.indian%23holiday%40group.v.calendar.google.com&ctz=Asia%2FKolkata" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+                </div>
+            </div>
+            <!-- Analytics Section -->
+            <div id="analytics" class="analytics-section" style="margin-top:4rem;">
+                <div class="section-header">
+                    <h2>Analytics</h2>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 2rem; background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <!-- Bar Chart -->
+                    <div style="flex: 2 1 400px;">
+                    <canvas id="analyticsChart" width="400" height="200"></canvas>
+                    </div>
+                    <!-- Small Pie Chart -->
+                    <div style="flex: 1 1 200px; display: flex; justify-content: center; align-items: center;">
+                    <canvas id="analyticsPieChart" width="200" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Notification and Confetti Overlay -->
+    <div id="notificationOverlay" class="overlay">
+        <div class="confetti-container" id="confettiContainer"></div>
+        <div class="notification-box">
+            <h2 id="notificationTitle">Congratulations!</h2>
+            <p id="notificationMessage">Your event request has been submitted. Our team will contact you soon!</p>
+        </div>
+    </div>
+
+    <script>
+        let userLat;
+        let userLng;
+        let autocomplete; // Declare autocomplete globally
+
+        // Chart instances declared globally for theme updates
+        let analyticsChart;
+        let analyticsPieChart;
+
+        // --- Theme Toggle Functions ---
+        // Function to apply the theme
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+
+            // Update theme toggle icon
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                if (theme === 'dark') {
+                    themeToggleBtn.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    `; // Moon icon
+                } else {
+                    themeToggleBtn.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    `; // Sun icon
+                }
+            }
+            updateChartTheme(); // Update chart colors
+        }
+
+        // Function to toggle theme
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem('theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        }
+
+        // Function to update Chart.js theme
+        function updateChartTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const isDarkMode = currentTheme === 'dark';
+
+            // Update Bar Chart
+            if (analyticsChart) {
+                analyticsChart.data.datasets[0].backgroundColor = isDarkMode ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.5)';
+                analyticsChart.data.datasets[0].borderColor = isDarkMode ? 'rgba(59, 130, 246, 1)' : 'rgba(59, 130, 246, 1)';
+                analyticsChart.data.datasets[1].backgroundColor = isDarkMode ? 'rgba(168, 85, 247, 0.8)' : 'rgba(168, 85, 247, 0.5)';
+                analyticsChart.data.datasets[1].borderColor = isDarkMode ? 'rgba(168, 85, 247, 1)' : 'rgba(168, 85, 247, 1)';
+
+                // Update grid and tick colors for axes
+                analyticsChart.options.scales.y.grid.color = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                analyticsChart.options.scales.x.grid.color = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                analyticsChart.options.scales.y.ticks.color = isDarkMode ? 'var(--gray-300)' : 'var(--gray-700)';
+                analyticsChart.options.scales.x.ticks.color = isDarkMode ? 'var(--gray-300)' : 'var(--gray-700)';
+                
+                // Update legend label color
+                analyticsChart.options.plugins.legend.labels.color = isDarkMode ? 'var(--gray-100)' : 'var(--gray-900)';
+
+
+                analyticsChart.update();
+            }
+
+            // Update Pie Chart
+            if (analyticsPieChart) {
+                // Update legend label color
+                analyticsPieChart.options.plugins.legend.labels.color = isDarkMode ? 'var(--gray-100)' : 'var(--gray-900)';
+                analyticsPieChart.update();
+            }
+        }
+
+        // --- Core UI and Authentication Functions ---
+        function updateLoginLogoutButton() {
+            const loginLogoutButton = document.getElementById('login-logout-button');
+            const mainCreateEventButton = document.getElementById('mainCreateEventButton');
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+            if (isLoggedIn) {
+                loginLogoutButton.textContent = 'Logout';
+                loginLogoutButton.classList.add('auth-button', 'logout');
+                mainCreateEventButton.disabled = false; // Enable button
+                mainCreateEventButton.removeAttribute('title'); // Remove tooltip
+            } else {
+                loginLogoutButton.textContent = 'Login';
+                loginLogoutButton.classList.add('auth-button', 'login');
+                mainCreateEventButton.disabled = true; // Disable button
+                mainCreateEventButton.title = "Please log in to create an event."; // Add tooltip
+            }
+        }
+
+        function handleLoginLogout() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (isLoggedIn) {
+                logout();
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            console.log('You have been logged out.');
+            window.location.href = 'login.html'; // Redirect to login page after logout
+            localStorage.removeItem('username');
+            localStorage.removeItem('userImage');
+            updateLoginLogoutButton(); // Update button state after logout
+        }
+
+        // Call on load to set initial state
+        updateLoginLogoutButton();
+
+        function openCreateEventForm(eventType = '') {
+            // Check if the main create event button is disabled due to login state
+            const mainCreateEventButton = document.getElementById('mainCreateEventButton');
+            if (mainCreateEventButton.disabled) {
+                console.log("Create Event button is disabled. User must log in first.");
+                return;
+            }
+
+            document.getElementById('createEventModal').style.display = 'flex';
+            
+            // Set location field to empty and readonly initially
+            const eventLocationInput = document.getElementById('eventLocation');
+            eventLocationInput.value = '';
+            eventLocationInput.readOnly = true; 
+            // Also explicitly call getCurrentLocation() now that the form is open
+            getCurrentLocation(); // THIS IS WHERE GPS IS REQUESTED
+
+            // Reset and populate organization dropdown (initial state)
+            const orgSelect = document.getElementById('eventManagementOrg');
+            orgSelect.innerHTML = '<option value="">Select an organization</option>';
+            addGenericOrganizations(orgSelect); 
+
+            // Pre-select event type if passed from card button
+            if (eventType) {
+                document.getElementById('eventType').value = eventType;
+            } else {
+                document.getElementById('eventType').value = ''; // Reset if opened normally
+            }
+
+            // Initialize Autocomplete AFTER location is potentially populated by GPS
+            // and after the input is made non-readonly, to ensure it works correctly.
+            // A small delay might be needed for GPS to set the initial value.
+            setTimeout(() => {
+                initAutocomplete();
+            }, 500); // Give GPS a moment to start, then enable autocomplete
+        }
+
+
+        function closeCreateEventForm() {
+            document.getElementById('createEventModal').style.display = 'none';
+            // Clear location input and make it readonly again after closing
+            document.getElementById('eventLocation').value = '';
+            document.getElementById('eventLocation').readOnly = true;
+        }
+
+        function updateWelcomeMessage() {
+            const username = localStorage.getItem('username') || 'User';
+            document.getElementById('welcome-message').textContent = `Welcome back, ${username}!`;
+        }
+
+        updateWelcomeMessage();
+
+        function updateUserAvatar() {
+            const username = localStorage.getItem('username');
+            const firstLetter = username ? username.charAt(0).toUpperCase() : '?';
+
+            const avatar = document.getElementById('userAvatar');
+            avatar.textContent = firstLetter;
+        }
+
+        updateUserAvatar();
+
+        // --- Geolocation and Google Places API Functions ---
+
+        // Initialize Google Places Autocomplete for manual location input
+        function initAutocomplete() {
+            if (typeof google === 'undefined' || typeof google.maps === 'undefined' || typeof google.maps.places === 'undefined') {
+                console.error("Google Maps Places library not loaded. Autocomplete will not work. Check API key and libraries in the script tag.");
+                document.getElementById('eventLocation').placeholder = "Google Maps API not loaded.";
+                return;
+            }
+            const locationInput = document.getElementById('eventLocation');
+            
+            // If autocomplete is already initialized, return
+            if (autocomplete) {
+                return;
+            }
+
+            autocomplete = new google.maps.places.Autocomplete(locationInput, {
+                types: ['geocode'], // Restrict to geographic results
+            });
+
+            autocomplete.addListener('place_changed', () => {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    console.warn("No details available for input: '" + place.name + "'");
+                    // Keep typed text if no specific place found, allow user to continue
+                    locationInput.value = place.name; 
+                } else {
+                    // Set the location input to the full formatted address
+                    locationInput.value = place.formatted_address;
+                    // No automatic organization search for manual input, user can use GPS button for that
+                }
+                // Once something is selected or typed, allow manual edits
+                locationInput.readOnly = false;
+            });
+
+            // Allow manual typing if user starts typing after it's been set by GPS or initially empty
+            locationInput.addEventListener('input', () => {
+                locationInput.readOnly = false;
+            });
+        }
+
+        function getCurrentLocation() {
+            const eventLocationInput = document.getElementById('eventLocation');
+            const orgSelect = document.getElementById('eventManagementOrg');
+
+            eventLocationInput.value = 'Attempting to get your location...';
+            eventLocationInput.readOnly = true; // Make readonly while fetching
+            orgSelect.innerHTML = '<option value="">Searching for organizations...</option>';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLat = position.coords.latitude;
+                        userLng = position.coords.longitude;
+                        reverseGeocode(userLat, userLng);
+                        searchEventOrganizations(userLat, userLng);
+                        eventLocationInput.readOnly = false; // Allow manual editing after GPS
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                        let errorMessage = 'GPS unavailable. Please enable location services or type manually.';
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = 'Location access denied. Please allow location in browser settings.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = 'Location information is unavailable. Try again.';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = 'Getting location timed out. Try again.';
+                                break;
+                        }
+                        eventLocationInput.value = errorMessage;
+                        eventLocationInput.readOnly = false; // Allow manual editing after error
+                        searchEventOrganizations(null, null); // Fallback to generic options
+                    },
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 } // Increased timeout for better chance
+                );
+            } else {
+                eventLocationInput.value = 'Geolocation not supported by this browser.';
+                eventLocationInput.readOnly = false; // Allow manual editing
+                searchEventOrganizations(null, null); // Fallback if browser doesn't support Geolocation
+            }
+        }
+
+        function reverseGeocode(lat, lng) {
+            const geocoder = new google.maps.Geocoder();
+            const latlng = { lat: lat, lng: lng };
+
+            geocoder.geocode({ 'location': latlng }, (results, status) => {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        document.getElementById('eventLocation').value = results[0].formatted_address;
+                    } else {
+                        document.getElementById('eventLocation').value = 'Address not found';
+                    }
+                } else {
+                    console.error('Geocoder failed due to: ' + status);
+                    document.getElementById('eventLocation').value = 'Error fetching address';
+                }
+            });
+        }
+
+        function searchEventOrganizations(lat, lng) {
+            const orgSelect = document.getElementById('eventManagementOrg');
+            
+            if (!google.maps.places || !google.maps.places.PlacesService) {
+                console.error('Google Maps Places library not loaded. Check API key and libraries in the script tag.');
+                orgSelect.innerHTML = '<option value="">Error: Maps API not fully loaded.</option>';
+                addGenericOrganizations(orgSelect);
+                return;
+            }
+
+            // Only perform nearby search if valid coordinates are available
+            if (lat !== null && lng !== null && lat !== 0 && lng !== 0) {
+                const service = new google.maps.places.PlacesService(document.createElement('div'));
+                const request = {
+                    location: new google.maps.LatLng(lat, lng),
+                    radius: '50000', // 50 km radius
+                    type: ['event_planner', 'establishment'],
+                    keyword: 'event management organization'
+                };
+
+                service.nearbySearch(request, (results, status) => {
+                    orgSelect.innerHTML = '<option value="">Select an organization</option>'; // Reset dropdown
+
+                    if (status === google.maps.places.PlacesServiceStatus.OK && results && results.length > 0) {
+                        results.forEach(place => {
+                            const option = document.createElement('option');
+                            option.value = place.name;
+                            option.textContent = place.name;
+                            orgSelect.appendChild(option);
+                        });
+                    } else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                        orgSelect.innerHTML = '<option value="">No organizations found near your location.</option>';
+                    } else {
+                        console.error('Places search failed due to: ' + status);
+                        orgSelect.innerHTML = '<option value="">Error searching organizations (' + status + ').</option>';
+                    }
+                    addGenericOrganizations(orgSelect); // Always add generic options as fallback
+                });
+            } else {
+                // Fallback if no GPS location, populate with generic options immediately
+                orgSelect.innerHTML = '<option value="">Select an organization (manual or try GPS again)</option>';
+                addGenericOrganizations(orgSelect);
+            }
+        }
+
+        function addGenericOrganizations(selectElement) {
+            // Prevent adding duplicates if already present
+            const currentOptions = Array.from(selectElement.options).map(opt => opt.value);
+            if (!currentOptions.includes("Local Event Planners (Generic)")) {
+                const option = document.createElement('option');
+                option.value = "Local Event Planners (Generic)";
+                option.textContent = "Local Event Planners (Generic)";
+                selectElement.appendChild(option);
+            }
+            if (!currentOptions.includes("City Event Solutions (Generic)")) {
+                const option = document.createElement('option');
+                option.value = "City Event Solutions (Generic)";
+                option.textContent = "City Event Solutions (Generic)";
+                selectElement.appendChild(option);
+            }
+            if (!currentOptions.includes("Global Events Co. (Generic)")) {
+                const option = document.createElement('option');
+                option.value = "Global Events Co. (Generic)";
+                option.textContent = "Global Events Co. (Generic)";
+                selectElement.appendChild(option);
+            }
+        }
+
+
+        // --- Notification and Animation ---
+        function displayNotificationAndAnimation() {
+            const overlay = document.getElementById('notificationOverlay');
+            const confettiContainer = document.getElementById('confettiContainer');
+            
+            confettiContainer.innerHTML = ''; // Clear previous confetti
+
+            const colors = ['#f59e0b', '#3b82f6', '#ef4444', '#10b981', '#a855f7'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = Math.random() * -100 + 'px';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confettiContainer.appendChild(confetti);
+            }
+
+            overlay.classList.add('active');
+
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 10000);
+        }
+
+        // --- Gemini API Integration Functions ---
+
+        async function callGeminiAPI(prompt, targetElement, buttonElement) {
+            const apiKey = ""; // API key will be provided by Canvas runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+
+            buttonElement.disabled = true; // Disable button during API call
+            buttonElement.textContent = 'Generating...';
+            targetElement.value = 'Generating...'; // Show loading message in the target field
+
+            try {
+                const payload = { contents: chatHistory };
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("Gemini API Error Response:", errorData);
+                    let errorMessage = `API error: ${response.status} ${response.statusText}.`;
+                    if (response.status === 403) {
+                         errorMessage += " Check if Generative Language API is enabled for your project and your API key has correct permissions.";
+                         console.warn("⚠️ IMPORTANT: Encountered 403 Forbidden for Gemini API. Please ensure 'Generative Language API' is enabled in your Google Cloud Project and your API key has appropriate permissions.");
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    targetElement.value = text.trim(); // Populate the target field
+                } else {
+                    targetElement.value = 'Failed to generate content. Please try again.';
+                    console.error("Gemini API response structure unexpected:", result);
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                targetElement.value = 'Error generating content: ' + error.message;
+            } finally {
+                buttonElement.disabled = false; // Re-enable button
+                if (buttonElement.id === 'generateDescriptionBtn') {
+                    buttonElement.innerHTML = '✨ Generate Description';
+                } else if (buttonElement.id === 'generateSloganBtn') {
+                    buttonElement.innerHTML = '✨ Generate Slogan';
+                }
+            }
+        }
+
+        function generateEventDescription() {
+            const eventTitle = document.getElementById('eventTitle').value;
+            const eventType = document.getElementById('eventType').value;
+            const descriptionField = document.getElementById('eventDescription');
+            const button = document.getElementById('generateDescriptionBtn');
+
+            if (!eventTitle) {
+                descriptionField.value = "Please enter an Event Title first.";
+                return;
+            }
+            if (!eventType) {
+                descriptionField.value = "Please select an Event Type first.";
+                return;
+            }
+
+            const prompt = `Write a detailed, engaging, and concise description for a ${eventType} event titled "${eventTitle}". Focus on what attendees will experience and gain.`;
+            callGeminiAPI(prompt, descriptionField, button);
+        }
+
+        function generateEventSlogan() {
+            const eventTitle = document.getElementById('eventTitle').value;
+            const eventType = document.getElementById('eventType').value;
+            const sloganField = document.getElementById('eventSlogan');
+            const button = document.getElementById('generateSloganBtn');
+
+            if (!eventTitle) {
+                sloganField.value = "Please enter an Event Title first.";
+                return;
+            }
+            if (!eventType) {
+                sloganField.value = "Please select an Event Type first.";
+                return;
+            }
+
+            const prompt = `Suggest one catchy and memorable slogan for a ${eventType} event titled "${eventTitle}". Make it short and impactful.`;
+            callGeminiAPI(prompt, sloganField, button);
+        }
+
+
+        // --- End Gemini API Integration Functions ---
+
+        // Handle form submission
+        document.getElementById('createEventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const newEvent = {
+                id: `event_${Date.now()}`,
+                title: document.getElementById('eventTitle').value,
+                type: document.getElementById('eventType').value,
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                location: document.getElementById('eventLocation').value,
+                mobileNumber: document.getElementById('mobileNumber').value, // New field
+                organization: document.getElementById('eventManagementOrg').value, // New field
+                slogan: document.getElementById('eventSlogan').value, // New field
+                description: document.getElementById('eventDescription').value,
+                attendees: document.getElementById('attendees').value, // Updated ID
+                status: "Upcoming" // Default status
+            };
+
+            // Send event to Google Sheets backend
+            sendEventToSheets(newEvent);
+
+            // Display notification and animation
+            displayNotificationAndAnimation();
+
+            // Close modal and reset form after a short delay to allow notification to show
+            setTimeout(() => {
+                closeCreateEventForm();
+                document.getElementById('createEventForm').reset();
+            }, 500); // Close form after 0.5 seconds
+        });
+
+        function sendEventToSheets(event) {
+            fetch('https://script.google.com/macros/s/AKfycbwURoP1sG8DqWvYyIYhKY2RAdlWCmGHherFMJmYuhIunsrS4VzrzUsv_TyI8oUNKd85/exec', { 
+                method: 'POST',
+                body: JSON.stringify(event),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok. Status: " + response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Event sent to Google Sheets:", data);
+            })
+            .catch(error => {
+                console.error("Error sending event to Google Sheets:", error);
+            });
+        }
+
+        // Add event listeners for the new Gemini buttons once DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const generateDescriptionBtn = document.getElementById('generateDescriptionBtn');
+            if (generateDescriptionBtn) {
+                generateDescriptionBtn.addEventListener('click', generateEventDescription);
+            }
+
+            const generateSloganBtn = document.getElementById('generateSloganBtn');
+            if (generateSloganBtn) {
+                generateSloganBtn.addEventListener('click', generateEventSlogan);
+            }
+
+            // Add event listeners to all "event-type-card-button" elements
+            document.querySelectorAll('.event-type-card-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const eventType = this.dataset.eventType;
+                    console.log(`Event Type card clicked for: ${eventType}`);
+                    // Open the create event form with the pre-selected event type
+                    openCreateEventForm(eventType);
+                });
+            });
+
+            // Initialize theme toggle and apply saved theme
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            applyTheme(localStorage.getItem('theme') || 'light');
+
+            // Initialize charts after theme application and the elements exist
+            // Bar Chart
+            const ctx = document.getElementById('analyticsChart').getContext('2d');
+            analyticsChart = new Chart(ctx, { // Assign to global variable
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'New Registrations',
+                        data: [120, 190, 300, 250, 320, 400],
+                        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1,
+                        borderRadius: 10
+                    },
+                    {
+                        label: 'Events Hosted',
+                        data: [5, 8, 6, 7, 9, 10],
+                        backgroundColor: 'rgba(168, 85, 247, 0.5)',
+                        borderColor: 'rgba(168, 85, 247, 1)',
+                        borderWidth: 1,
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeOutBounce'
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)' // Default light mode color
+                            },
+                            ticks: {
+                                color: 'var(--gray-700)' // Default light mode color
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)' // Default light mode color
+                            },
+                            ticks: {
+                                color: 'var(--gray-700)' // Default light mode color
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                color: 'var(--gray-900)' // Default light mode color
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Small Pie Chart
+            const pieCtx = document.getElementById('analyticsPieChart').getContext('2d');
+            analyticsPieChart = new Chart(pieCtx, { // Assign to global variable
+                type: 'pie',
+                data: {
+                    labels: ['Conferences', 'Workshops', 'Webinars', 'Social Events'],
+                    datasets: [{
+                        data: [12, 8, 15, 6],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.6)',
+                            'rgba(168, 85, 247, 0.6)',
+                            'rgba(245, 158, 11, 0.6)',
+                            'rgba(16, 185, 129, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(168, 85, 247, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(16, 185, 129, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true,
+                        duration: 1500,
+                        easing: 'easeOutElastic'
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                color: 'var(--gray-900)' // Default light mode color
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Apply theme and update charts on initial load
+            updateChartTheme();
+        });
+
+
+        // --- Console Warnings for Setup ---
+        window.onload = function() {
+            // Check for API key placeholder
+            const googleMapsScript = document.querySelector('script[src*="maps.googleapis.com"]');
+            if (googleMapsScript && googleMapsScript.src.includes('key=YOUR_API_KEY')) {
+                console.warn("⚠️ IMPORTANT: Please replace 'YOUR_API_KEY' in the Google Maps script tag with your actual Google Cloud API Key!");
+                console.warn("Ensure the Geolocation, Geocoding, and Places APIs are enabled in your Google Cloud project.");
+            }
+
+            // Check for HTTPS
+            if (window.location.protocol !== 'https:') {
+                console.warn("⚠️ IMPORTANT: Geolocation (GPS) features often require HTTPS. Please serve your application over HTTPS for full functionality.");
+            }
+
+            // Check if API key is still empty for Gemini (it's filled by Canvas, but a manual check can catch local issues)
+            // Note: In Canvas, this will be automatically handled. This is more for local debugging.
+            const tempApiKeyCheck = ""; // This will be the actual value if running outside Canvas
+            if (tempApiKeyCheck === "") {
+                console.info("💡 FYI: The Gemini API key will be automatically provided by the Canvas environment at runtime.");
+                console.warn("⚠️ IMPORTANT FOR GEMINI API: Ensure 'Generative Language API' is enabled in your Google Cloud Project for the API key being used. A 403 error often indicates this API is not enabled or permissions are incorrect.");
+            }
+        };
+
+    </script>
+    
+    
+    <script>
+  const eventImageUrls = {
+    "Conference": [
+      "photos/con3.jpeg",
+      "photos/con4.jpeg",
+      "photos/con5.jpeg",
+      "photos/con6.jpeg",
+      "photos/download.jpeg",
+      "photos/con.jpg"
+    ],
+    "Workshop": [
+      "photos/ws1.jpeg",
+      "photos/ws2.jpeg",
+      "photos/ws3.jpeg",
+      "photos/ws4.jpeg",
+      "photos/ws5.avif",
+      "photos/ws6.jpeg"
+    ],
+    "Webinar": [
+      "photos/web1.avif",
+      "photos/web2.jpeg",
+      "photos/web3.jpeg",
+      "photos/web4.jpeg",
+      "photos/web5.jpeg",
+      "photos/web6.jpeg"
+    ],
+    "Social Event": [
+      "photos/se1.jpg",
+      "photos/se2.jpeg",
+      "photos/se3.jpeg",
+      "photos/se4.jpeg",
+      "photos/web5.jpeg",
+      "photos/se6.jpeg"
+    ],
+    "Exhibition": [
+      "photos/e1.jpeg",
+      "photos/e2.jpeg",
+      "photos/e3.jpeg",
+      "photos/e4.jpeg",
+      "photos/e5.jpeg",
+      "photos/e6.jpeg"
+    ],
+    "Sports Event": [
+      "photos/s1.jpeg",
+      "photos/s2.jpeg",
+      "photos/s3.jpeg",
+      "photos/s4.jpeg",
+      "photos/s5.jpeg",
+      "photos/s6.jpeg"
+    ],
+    "Marriage": [
+      "photos/m1.jpeg",
+      "photos/m2.jpeg",
+      "photos/m3.jpeg",
+      "photos/m4.webp",
+      "photos/m5.jpeg",
+      "photos/m6.jpeg"
+    ]
+  };
+
+  const galleryModal = document.getElementById('galleryModal');
+  const closeBtn = document.getElementById('galleryModalClose');
+
+  closeBtn.onclick = () => {
+    galleryModal.style.display = 'none';
+    galleryModal.innerHTML = '<button id="galleryModalClose">Close</button>';
+  };
+
+  document.querySelectorAll('.event-type-card-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const type = button.getAttribute('data-event-type');
+      const urls = eventImageUrls[type];
+      if (!urls) return;
+
+      galleryModal.innerHTML = '<button id="galleryModalClose">Close</button>';
+      urls.forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = type;
+        img.className = 'gallery-image';
+        galleryModal.appendChild(img);
+      });
+
+      galleryModal.style.display = 'flex';
+      document.getElementById('galleryModalClose').onclick = closeBtn.onclick;
+    });
+  });
+</script>
+
+
+
+</body>
+</html>
